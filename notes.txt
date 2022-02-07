@@ -1,0 +1,19 @@
+step 1//////
+bring a map soulation import { MapContainer, TileLayer, Marker, Tooltip, Circle } from "react-leaflet"
+downlaod package node is the installeer https://react-leaflet.js.org/
+react is better and leafglet is the source 
+https://nominatim.openstreetmap.org/search.php?q=1475%20W%20Costilla%20St%2C%20Colorado%20Springs%20CO%2080905&polygon_geojson=1&format=jsonv2
+
+// Docs
+// https://nominatim.org/release-docs/develop/api/Search/
+
+step 2/////
+setCoordinatesContext({ mapProps: { center: [ parseFloat(lat),  parseFloat(lon) ], zoom: 13 }, address: display_name })
+ useState
+  [map, coordinatesContext]) dependency array
+  https://developer.mozilla.org/en-US/docs/Web
+  node packeage mager
+  step 3 
+
+   useEffect(() => {
+       ? is the value uncerioty 
