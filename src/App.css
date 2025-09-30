@@ -1,3 +1,7 @@
 #map, .leaflet-container {
   min-height: calc(100vh - 80px);
 }
+
+.dropdown-selector {
+  margin: 16px;
+}
