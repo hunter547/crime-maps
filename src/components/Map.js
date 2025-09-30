@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Tooltip, Circle } from "react-leaflet"
+import { MapContainer, TileLayer, Marker, Tooltip, Circle, useMap } from "react-leaflet"
 import { CoordinatesContext } from '../context/CoordinatesContext';
 import { getAgenciesFromState, getOffensesFromAgencyInTimeRange } from '../utils/fbi-api-helper';
 import { Button, Box, Typography, Chip } from '@mui/material';
@@ -12,10 +12,23 @@ import AgeDistribution from './AgeDistribution';
 import RaceDistribution from './RaceDistribution';
 import { OFFENSE_TYPES } from './Offense';
 
+// Component to handle flyTo functionality using useMap hook
+function FlyToLocation({ center, zoom }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (map && center && zoom) {
+      console.log('Flying to:', center, 'zoom:', zoom);
+      map.flyTo(center, zoom);
+    }
+  }, [map, center, zoom]);
+
+  return null;
+}
+
 export default function Map() {
 
   const [coordinatesContext, setCoordinatesContext] = useContext(CoordinatesContext)
-  const [map, setMap] = useState(null)
   const [agencies, setAgencies] = useState(null)
   const [selectedState, setSelectedState] = useState('VA') // Default to Virginia
   const [selectedAgency, setSelectedAgency] = useState('')
@@ -132,18 +145,6 @@ export default function Map() {
 
   // Radius in miles
   const radius = 5
-
-  useEffect(() => {
-    if (map) {
-      map.on("moveend zoomend", function() {
-        // Logic for when map is done zooming in from the map.flyTo method.
-      })
-    }
-  }, [map])
-
-  useEffect(() => {
-    if (map) map.flyTo(coordinatesContext.mapProps.center, coordinatesContext.mapProps.zoom)
-  }, [map, coordinatesContext]) // <= Listen to value changes to either map or coordinatesContext
 
   return (
     <div id="map">
@@ -312,10 +313,14 @@ export default function Map() {
           </div>
         )}
       </div>
-      <MapContainer whenCreated={map => setMap(map)} {...coordinatesContext.mapProps}>
+      <MapContainer {...coordinatesContext.mapProps}>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <FlyToLocation 
+              center={coordinatesContext.mapProps.center} 
+              zoom={coordinatesContext.mapProps.zoom} 
             />
             {coordinatesContext.address && (
               <>
