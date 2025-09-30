@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Typography, Paper } from '@mui/material';
-import { Male, Female } from '@mui/icons-material';
 
 const AgeDistribution = ({ ageData, title, color, icon }) => {
   if (!ageData) return null;
